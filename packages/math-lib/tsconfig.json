@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "baseUrl": "./src",
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "lib": [
+            "ES2015",
+            "DOM"
+        ],
+        "module": "es2015",
+        "moduleResolution": "bundler",
+        "declaration": true,
+        "declarationDir": "./dist/types",
+        "declarationMap": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "jsx": "react",
+        "resolveJsonModule": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "alwaysStrict": true,
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true,
+        "skipLibCheck": true // Fix typedoc issue
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node-modules/**/*"
+    ],
+    "compileOnSave": false
+}

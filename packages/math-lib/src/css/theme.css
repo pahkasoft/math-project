@@ -1,0 +1,50 @@
+
+.theme-style-default {
+    color: black;
+    stroke: black;
+    fill: none;
+}
+
+.theme-style-number {
+    color: rgb(80, 150, 0);
+    stroke: rgb(80, 150, 0);
+    fill: none;
+}
+
+.theme-style-variable {
+    color: rgb(0, 100, 180);
+    stroke: rgb(0, 100, 180);
+    fill: none;
+}
+
+.theme-style-function {
+    color: rgb(180, 120, 0);
+    stroke: rgb(180, 120, 0);
+    fill: none;
+}
+
+.theme-style-operator {
+    color: rgb(100, 100, 100);
+    stroke: rgb(100, 100, 100);
+    fill: none;
+}
+
+.theme-style-decoration {
+    color: rgb(100, 100, 100);
+    stroke: rgb(100, 100, 100);
+    fill: none;
+}
+
+@keyframes blink-data {
+    0% { opacity: 100; }
+    50% { opacity: 100; }
+    51% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+.theme-style-cursor {
+    animation: blink-data 0.8s linear infinite;
+    color: black;
+    stroke: none;
+    fill: black;  
+}
