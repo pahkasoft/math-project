@@ -9,7 +9,7 @@
     "types": "./dist/types/index.d.ts",
     "dependencies": {
         "@tspro/brace-format": "^3.0.0",
-        "@tspro/ts-utils-lib": "^1.0.0",
+        "@tspro/ts-utils-lib": "^1.0.1",
         "random-js": "^2.1.0"
     },
     "devDependencies": {

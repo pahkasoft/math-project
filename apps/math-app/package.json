@@ -7,7 +7,7 @@
     "description": "",
     "dependencies": {
         "@mdi/js": "^7.4.47",
-        "@tspro/ts-utils-lib": "^1.0.0",
+        "@tspro/ts-utils-lib": "^1.0.1",
         "bootstrap": "^5.3.3",
         "core-js": "^3.41.0",
         "math-lib": "^1.0.0",
