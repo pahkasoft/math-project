@@ -2,8 +2,8 @@
     "name": "math-app",
     "version": "1.0.0",
     "author": "PahkaSoft",
+    "license": "MIT",
     "private": true,
-    "license": "zlib",
     "description": "",
     "dependencies": {
         "@mdi/js": "^7.4.47",
