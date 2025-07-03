@@ -4,7 +4,6 @@ import { Parser } from "math-lib";
 import { FractionIcon, ExponentIcon, RadicalIcon, MatrixIcon, AppMenuIcon } from "./icons";
 import { SimpleDropDown } from "./components";
 import { MathApp } from "math-app";
-import { Settings } from "settings";
 import { Utils } from "@tspro/ts-utils-lib";
 
 const MaxMatrixSize = 5;
@@ -93,21 +92,10 @@ interface AppMenuProps {
 
 export const AppMenu = (props: AppMenuProps) => {
     let { app } = props;
-    let { showBaseConverter } = app.state;
-
-    const toggleBaseConverter = () => app.setShowBaseConverter(!showBaseConverter);
 
     return (
         <SimpleDropDown button={<AppMenuIcon />} headerTitle="App Menu">
             <Dropdown.Item onClick={() => app.clearWorkspace()}>Clear Workspace</Dropdown.Item>
-            {Settings.EnableBaseConverter
-                ? <>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={toggleBaseConverter}>
-                        {showBaseConverter ? "Hide Base Converter" : "Show Base Converter"}
-                    </Dropdown.Item>
-                </>
-                : null}
             <Dropdown.Divider />
             <Dropdown.Item onClick={() => app.showAbout(true)}>About</Dropdown.Item>
         </SimpleDropDown>

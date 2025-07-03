@@ -4,7 +4,7 @@ import { MathApp } from "./math-app";
 import { Table } from "react-bootstrap";
 import { MathLine, MathLineComponent } from "math-line";
 import { MyInput } from "ui/my-input";
-import { Settings } from "settings";
+import { Settings } from "./settings";
 import { Assert } from "@tspro/ts-utils-lib";
 
 export interface MathDocumentProps {
@@ -99,8 +99,8 @@ export class MathDocument extends React.Component<MathDocumentProps, MathDocumen
 
     setResult(line: MathLine, result: Eval.EvalValue) {
         let resultExpr = Engine.expressionFromValue(
-            this.app.outputBase,
-            Settings.getInstance().displayPrecision,
+            Settings.displayBase,
+            Settings.displayPrecision,
             result,
             true);
 
@@ -140,7 +140,10 @@ export class MathDocument extends React.Component<MathDocumentProps, MathDocumen
 
         let line = this.getActiveLine();
 
-        let mc = new BigMath.MathContext(this.app.inputBase, Settings.getInstance().internalPrecision, BigMath.RoundingMode.HalfUp)
+        let mc = new BigMath.MathContext(
+            Settings.displayBase,
+            Settings.internalPrecision,
+            BigMath.RoundingMode.HalfUp);
 
         line.setMathContext(mc);
 

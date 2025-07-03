@@ -5,7 +5,6 @@ import { Button, ButtonGroup, Modal, Navbar } from "react-bootstrap";
 import { Eval, Parser } from "math-lib";
 import * as Ui from "ui";
 import { MyInput } from "ui/my-input";
-import { Settings } from "settings";
 import { Assert, Cookies, Utils } from "@tspro/ts-utils-lib";
 
 const ScrollToBottomElemId = "BottomElem";
@@ -37,9 +36,6 @@ export interface MatfAppState {
     contentHeight: number;
     error?: Eval.EvalError | string;
     isCalculating: boolean;
-    showBaseConverter: boolean;
-    inputBase: number;
-    outputBase: number;
     showAbout: boolean;
 }
 
@@ -58,9 +54,6 @@ export class MathApp extends React.Component<{}, MatfAppState> {
         this.state = {
             contentHeight: this.calcContentHeight(),
             isCalculating: false,
-            showBaseConverter: Settings.getInstance().showBaseConverter,
-            inputBase: Settings.getInstance().inputBase,
-            outputBase: Settings.getInstance().outputBase,
             showAbout: false
         }
 
@@ -97,14 +90,6 @@ export class MathApp extends React.Component<{}, MatfAppState> {
         }
     }
 
-    get inputBase() {
-        return this.state.showBaseConverter ? this.state.inputBase : 10;
-    }
-
-    get outputBase() {
-        return this.state.showBaseConverter ? this.state.outputBase : 10;
-    }
-
     clearWorkspace() {
         if (this.doc) {
             this.doc.empty();
@@ -138,19 +123,6 @@ export class MathApp extends React.Component<{}, MatfAppState> {
         this.setState({ isCalculating });
     }
 
-    setShowBaseConverter(show: boolean) {
-        if (!Settings.EnableBaseConverter) {
-            return;
-        }
-
-        Settings.getInstance().showBaseConverter = show;
-        this.setState({ showBaseConverter: show });
-
-        if (this.state.inputBase !== 10 || this.state.outputBase !== 10) {
-            this.clearWorkspace();
-        }
-    }
-
     showAbout(showAbout: boolean) {
         this.setState({ showAbout });
     }
@@ -159,9 +131,6 @@ export class MathApp extends React.Component<{}, MatfAppState> {
         let {
             contentHeight,
             isCalculating,
-            showBaseConverter,
-            inputBase,
-            outputBase,
             showAbout
         } = this.state;
 
@@ -193,16 +162,6 @@ export class MathApp extends React.Component<{}, MatfAppState> {
             this.doc?.handleInput(MyInput.InsertMatrix, "M" + rows + "x" + cols);
         }
 
-        const changeInputBase = (b: number) => {
-            Settings.getInstance().inputBase = b;
-            this.setState({ inputBase: b }, () => this.clearWorkspace());
-        }
-
-        const changeOutputBase = (b: number) => {
-            Settings.getInstance().outputBase = b;
-            this.setState({ outputBase: b }, () => this.clearWorkspace());
-        }
-
         return <>
             <div ref={this.refHeaderDiv}>
                 <Navbar bg="primary">
@@ -224,13 +183,7 @@ export class MathApp extends React.Component<{}, MatfAppState> {
                         </ButtonGroup>
                     </div>
                 </Navbar>
-                <Ui.BaseConverter
-                    show={showBaseConverter}
-                    inputBase={inputBase}
-                    outputBase={outputBase}
-                    onClose={() => this.setShowBaseConverter(false)}
-                    onChangeInputBase={changeInputBase}
-                    onChangeOutputBase={changeOutputBase} />
+                
                 <AskCookieConsent />
             </div>
 

@@ -1,9 +1,5 @@
 import * as React from "react";
-import { Button, Table, Toast, ToastBody, Spinner, Alert, Dropdown, Row, Col } from "react-bootstrap";
-import { BigMath } from "math-lib";
-import { Form } from "react-bootstrap";
-import { MyInput } from "./my-input";
-import { Utils } from "@tspro/ts-utils-lib";
+import { Button, Table, Toast, ToastBody, Spinner, Dropdown } from "react-bootstrap";
 
 export interface NewTabLinkProps {
     href: string;
@@ -128,77 +124,5 @@ export class SimpleDropDown extends React.Component<SimpleDropDownProps, SimpleD
                 </Dropdown.Menu>
             </Dropdown>
         );
-    }
-}
-
-export interface BaseConverterProps {
-    show: boolean;
-    inputBase: number;
-    outputBase: number;
-    onClose: () => void;
-    onChangeInputBase: (b: number) => void;
-    onChangeOutputBase: (b: number) => void;
-}
-
-export class BaseConverter extends React.Component<BaseConverterProps, {}> {
-    constructor(props: BaseConverterProps) {
-        super(props);
-    }
-
-    render() {
-        let { props } = this;
-
-        if (!props.show) {
-            return null;
-        }
-
-        function onChangeInputBase(e: React.ChangeEvent<HTMLSelectElement>) {
-            let base = parseInt(e.target.value);
-            if (base !== props.inputBase) {
-                props.onChangeInputBase(base);
-            }
-            MyInput.focus();
-        }
-
-        function onChangeOutputBase(e: React.ChangeEvent<HTMLSelectElement>) {
-            let base = parseInt(e.target.value);
-            if (base !== props.outputBase) {
-                props.onChangeOutputBase(base);
-            }
-            MyInput.focus();
-        }
-
-        function onClickOption() {
-            MyInput.focus();
-        }
-
-        return <Alert className="mb-0" variant="primary" dismissible onClose={() => props.onClose()}>
-            <p>
-                Base Converter
-            </p>
-            <Form>
-                <Form.Group>
-                    <Row>
-                        <Col xs="auto">
-                            <Form.Select size="sm" value={props.inputBase} onChange={onChangeInputBase}>
-                                {Utils.Arr.mapRangeArray(2, BigMath.BigNumber.MaxBase, base => {
-                                    return <option key={base} value={base} onClick={onClickOption}>{BigMath.Helpers.getBaseName(base, true)}</option>;
-                                })}
-                            </Form.Select>
-                        </Col>
-                        <Col xs="auto">
-                            <ArrowSymbol />
-                        </Col>
-                        <Col xs="auto">
-                            <Form.Select size="sm" value={props.outputBase} onChange={onChangeOutputBase}>
-                                {Utils.Arr.mapRangeArray(2, BigMath.BigNumber.MaxBase, base => {
-                                    return <option key={base} value={base} onClick={onClickOption}>{BigMath.Helpers.getBaseName(base, true)}</option>;
-                                })}
-                            </Form.Select>
-                        </Col>
-                    </Row>
-                </Form.Group>
-            </Form>
-        </Alert>;
     }
 }
