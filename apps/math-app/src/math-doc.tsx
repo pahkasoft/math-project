@@ -98,11 +98,12 @@ export class MathDocument extends React.Component<MathDocumentProps, MathDocumen
     }
 
     setResult(line: MathLine, result: Eval.EvalValue) {
-        let resultExpr = Engine.expressionFromValue(
+        let mc = new BigMath.MathContext(
             Settings.displayBase,
             Settings.displayPrecision,
-            result,
-            true);
+            BigMath.RoundingMode.HalfUp);
+
+        let resultExpr = Engine.expressionFromValue(mc, result, true);
 
         line.mathObject.rootNode.clearResult();
         line.mathObject.rootNode.addResultExpr(resultExpr);

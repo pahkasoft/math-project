@@ -10,15 +10,11 @@ function fixDigits(digits: string) {
 }
 
 class ExpressionCreator {
-    mc: MathContext;
-
-    constructor(private displayBase: number, private displayPrecision: number) {
-        this.mc = new MathContext(displayBase, displayPrecision, RoundingMode.HalfUp);
-    }
+    constructor(private displayMC: MathContext) { }
 
     createExpression(x: number | string | BigNumber | Matrix, insertEqualSymbol: boolean): Nodes.NExpression {
         if (isNumberArgument(x)) {
-            x = BigNumber.convert(x, this.mc);
+            x = BigNumber.convert(x, this.displayMC);
         }
 
         let result;
@@ -57,9 +53,7 @@ class ExpressionCreator {
     private createNumberExpression(x: BigNumber): Nodes.NExpression {
         Assert.assert(!x.isNaN(), "Create expression from NaN.");
 
-        let displayMC = new MathContext(this.displayBase, this.displayPrecision, RoundingMode.HalfUp);
-
-        x = x.convert(displayMC);
+        x = x.convert(this.displayMC);
 
         let str = x.toUserFriendlyString();
 
@@ -77,6 +71,6 @@ class ExpressionCreator {
     }
 }
 
-export function expressionFromValue(displayBase: number, displayPrecision: number, x: number | string | BigNumber | Matrix, insertEqualSymbol = false) {
-    return new ExpressionCreator(displayBase, displayPrecision).createExpression(x, insertEqualSymbol);
+export function expressionFromValue(mc: MathContext, x: number | string | BigNumber | Matrix, insertEqualSymbol = false) {
+    return new ExpressionCreator(mc).createExpression(x, insertEqualSymbol);
 }
