@@ -6,7 +6,7 @@ The math and algorithms can get quite complex and at times pushed the limits of 
 Still, this is what I managed to build—not perfect, not bad, but reasonably solid.
 
 > ⚠️ Note: Some functions may have bugs or numeric issues.  
-> Calculations involving many digits may lose precision on a high decimal place.
+> Calculations involving many digits may lose precision on higher decimal places.
 
 ## Features
 * Intermediate-level mathematics
