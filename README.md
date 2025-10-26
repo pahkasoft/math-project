@@ -27,6 +27,6 @@ npm install --workspaces
 npm run watch --workspace math-lib
 npm run start --workspace math-app
 
-## Build all workspaces for production:
+# Build all workspaces for production:
 npm run build:prod --workspaces
 ```
