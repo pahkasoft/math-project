@@ -5,8 +5,10 @@ The goal was to create a functional calculator and math application.
 The math and algorithms can get quite complex and at times pushed the limits of my skills and understanding.  
 Still, this is what I managed to build—not perfect, not bad, but reasonably solid.
 
-## Features
+> ⚠️ Note: Some functions may have bugs or numeric issues.  
+> Calculations involving many digits may lose precision on a high decimal place.
 
+## Features
 * Intermediate-level mathematics
 * Hierarchical engine for versatile calculations
 * Wide variety of mathematical functions
