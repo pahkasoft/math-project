@@ -1,21 +1,32 @@
 # Math Project
 
-Intention of this project was to create a functional calculator/math application.
+This is one of my oldest projects that I've preserved.  
+The goal was to create a functional calculator and math application.  
+The math and algorithms can get quite complex and at times pushed the limits of my skills and understanding.  
+Still, this is what I managed to build—not perfect, not bad, but reasonably solid.
 
 ## Features
-* Hierarchical engine enables versatile calculations
-* Many functions
+
+* Intermediate-level mathematics
+* Hierarchical engine for versatile calculations
+* Wide variety of mathematical functions
 * Matrix calculations
-* Declare variables and functions
+* Ability to declare variables and custom functions
 
 ## Try Math App
-You can try the application [here](https://stefaninc.github.io/math-app/index.html).
 
-## Develop
-npm install
+You can try it [here](https://pahkasoft.github.io/math-app/index.html).
 
-npm run watch --workspace math-lib  
+## Development
+
+```bash
+# Install dependencies:
+npm install --workspaces
+
+# Run in watch mode:
+npm run watch --workspace math-lib
 npm run start --workspace math-app
 
-## Build Workspaces
+## Build all workspaces for production:
 npm run build:prod --workspaces
+```
