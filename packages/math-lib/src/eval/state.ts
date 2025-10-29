@@ -1,5 +1,5 @@
 import { EvalValue, FunctionDeclaration, VariableDeclaration, EvalDeclValue, isEvalValue } from "eval";
-import { Assert, Stack } from "@tspro/ts-utils-lib";
+import { Assert, Stack, UniMap } from "@tspro/ts-utils-lib";
 import { Vocabulary } from "parser/vocabulary";
 import { MathContext, BigNumber, RoundingMode } from "bigmath";
 import { StopWatch } from "./stopwatch";
@@ -25,8 +25,8 @@ export interface QueryLineAns {
 }
 
 class Params {
-    private readonly variables = new Map<string, EvalValue>();
-    private readonly functions = new Map<string, FunctionDeclaration>()
+    private readonly variables = new UniMap<string, EvalValue>();
+    private readonly functions = new UniMap<string, FunctionDeclaration>()
 
     constructor(params?: string[], args?: EvalValue[]) {
         Assert.assert(params && args || !params && !args);

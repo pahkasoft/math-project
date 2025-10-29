@@ -1,5 +1,5 @@
 import { EvalState, EvalError, EvalValue } from "eval";
-import { Assert } from "@tspro/ts-utils-lib";
+import { Assert, UniMap } from "@tspro/ts-utils-lib";
 
 export class FixedArgCount {
     constructor(readonly fixed: number) { }
@@ -63,7 +63,7 @@ export const fn_with_range_args = (name: string, min: number, max: number, func:
 export type FunctionData = FixedArgFunctionData | ArrayArgFunctionData;
 
 export function initFunctionMap(list: FunctionData[]) {
-    let map = new Map<string, FunctionData>();
+    let map = new UniMap<string, FunctionData>();
     list.forEach(data => {
         Assert.assert(!map.has(data.name), "Duplicate function.");
         map.set(data.name, data);
