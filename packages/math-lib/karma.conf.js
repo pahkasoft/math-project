@@ -36,12 +36,11 @@ module.exports = function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ["Chrome", "Firefox"],
-        singleRun: false,
+        browsers: ["Chrome"],
+        singleRun: true,
         concurrency: 1, //Infinity
         browserDisconnectTimeout: 60000,
         browserDisconnectTolerance: 3,
         browserNoActivityTimeout: 100000,
-        //flags: ["--disable-gpu", "--no-sandbox"]
     });
 }
