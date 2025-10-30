@@ -1,6 +1,3 @@
-import "./css/style.css";
-import "./css/theme.css";
-
 import * as BigMath from "./bigmath";
 import * as Engine from "./engine";
 import * as Eval from "./eval";
