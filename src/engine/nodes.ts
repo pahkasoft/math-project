@@ -131,6 +131,14 @@ export namespace Nodes {
             this.mathObject = p ? p.mathObject : undefined;
         }
 
+        protected setBounds(w: number, toph: number, bottomh: number) {
+            return this.bounds.set(0, w / 2, w, 0, toph, toph + bottomh);
+        }
+
+        protected setBoundsSize(w: number, h: number) {
+            return this.bounds.set(0, w / 2, w, 0, h / 2, h);
+        }
+
         protected notifyChanged() {
             if (!this._needUpdate) {
                 this._needUpdate = true;
@@ -322,8 +330,7 @@ export namespace Nodes {
 
             r.offsetInPlace(p, 0);
 
-            let w = p + r.width + p;
-            this.bounds.set(0, w / 2, w, 0, r.toph, r.height);
+            this.setBounds(p + r.width + p, r.toph, r.bottomh);
 
             return this.bounds;
         }
@@ -638,8 +645,7 @@ export namespace Nodes {
             if (this.nodeCount() === 0) {
                 let visible = this.drawableBallot.visible = !(this.parent instanceof NCalculation || this.parent instanceof NBracket);
                 let r = this.drawableBallot.layout();
-                let w = visible ? r.width : 0;
-                return this.bounds.set(0, w / 2, w, 0, r.toph, r.height);
+                return this.setBounds(visible ? r.width : 0, r.toph, r.bottomh);
             }
             else {
                 this.drawableBallot.visible = false;
@@ -659,7 +665,7 @@ export namespace Nodes {
                     x += n.bounds.width;
                 });
 
-                return this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
+                return this.setBounds(width, toph, bottomh);
 
             }
         }
@@ -846,7 +852,7 @@ export namespace Nodes {
             this.drawableBallot.offset(0, toph + bottomh - ballotR.height);
             elem.offset(ballotR.width, 0);
 
-            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
+            this.setBounds(width, toph, bottomh);
 
             return this.bounds;
         }
@@ -999,7 +1005,7 @@ export namespace Nodes {
             this.drawableRightBracket.offset(nameR.width + baseW + leftBrR.width + argR.width, 0);
             this.baseExpr.offset(nameR.width, toph);
 
-            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
+            this.setBounds(width, toph, bottomh);
 
             return this.bounds;
         }
@@ -1089,8 +1095,7 @@ export namespace Nodes {
             let toph = Math.max(kokR.toph, osoR.height);
             let bottomh = Math.max(kokR.bottomh, nimR.height);
 
-            let w = p + kokR.width + 2 * p + fwidth + 2 * p;
-            this.bounds.set(0, w / 2, w, 0, toph + p, toph + bottomh + 2 * p);
+            this.setBounds(p + kokR.width + 2 * p + fwidth + 2 * p, toph + p, bottomh + p);
 
             this.wholeExpr && this.wholeExpr.offset(p, p + toph - kokR.toph);
 
@@ -1173,7 +1178,7 @@ export namespace Nodes {
 
             let width = lbR.width + r.width + rbR.width;
 
-            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
+            this.setBounds(width, toph, bottomh);
 
             this.drawableLeftBracket.offset(0, 0);
             this.expression.offset(lbR.width, 0);
@@ -1324,8 +1329,7 @@ export namespace Nodes {
 
             this.argExpr.offset(p + radSymbolX + radSymW, drop);
 
-            let w = p + radSymbolX + radSymW + argR.width + p;
-            this.bounds.set(0, w / 2, w, 0, argR.anchorY, argR.bottom);
+            this.setBounds(p + radSymbolX + radSymW + argR.width + p, argR.anchorY, argR.bottomh);
 
             return this.bounds;
         }
@@ -1457,10 +1461,11 @@ export namespace Nodes {
             this.fnExpr.offset(x + lbR.width, uprR.height + midR.height / 2 - fnR.height / 2);
             this.drawableRightBracket.offset(x + lbR.width + fnR.width, uprR.height + midR.height / 2 - fnR.height / 2);
 
-            let _w = x + lbR.width + fnR.width + rbR.width + p;
-            let _toph = uprR.height + midR.toph;
-            let _bottomh = lwrR.height + midR.bottomh;
-            this.bounds.set(0, _w / 2, _w, 0, _toph, _toph + _bottomh);
+            this.setBounds(
+                x + lbR.width + fnR.width + rbR.width + p,
+                uprR.height + midR.toph,
+                lwrR.height + midR.bottomh
+            );
 
             return this.bounds;
         }
@@ -1676,7 +1681,7 @@ export namespace Nodes {
                 rowTop += rowH;
             }
 
-            this.bounds.set(0, lbR.width + contentW + rbR.width, 0, contentH);
+            this.setBoundsSize(lbR.width + contentW + rbR.width, contentH);
 
             return this.bounds;
         }
@@ -1801,7 +1806,7 @@ export namespace Nodes {
                 bottomh = Math.max(bottomh, r.bottomh);
             });
 
-            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
+            this.setBounds(width, toph, bottomh);
 
             let x = 0;
             expr.offset(x, toph - exprR.toph);
