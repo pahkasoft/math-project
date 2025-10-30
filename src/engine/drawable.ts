@@ -181,7 +181,7 @@ export namespace Drawable {
 
         constructor(parentNode: Nodes.NNode, style: ThemeStyle) {
             super(parentNode, style);
-            this.setSvgElem(this.lineSvgNode.el);
+            this.setSvgElem(this.lineSvgNode.getElement());
         }
 
         layout(width: number, toph: number, bottomh: number): AnchoredRect {
@@ -205,7 +205,7 @@ export namespace Drawable {
         constructor(parentNode: Nodes.NNode, style: ThemeStyle, readonly symbol: BracketSymbol) {
             super(parentNode, style);
             this.bracketSvgNode = new Svg.BracketNode(symbol);
-            this.setSvgElem(this.bracketSvgNode.el);
+            this.setSvgElem(this.bracketSvgNode.getElement());
         }
 
         layout(height: number): AnchoredRect {
@@ -231,7 +231,7 @@ export namespace Drawable {
 
         constructor(parentNode: Nodes.NNode, style: ThemeStyle) {
             super(parentNode, style);
-            this.setSvgElem(this.radicalSvgNode.el);
+            this.setSvgElem(this.radicalSvgNode.getElement());
         }
 
         layout(exprWidth: number, exprHeight: number): AnchoredRect {

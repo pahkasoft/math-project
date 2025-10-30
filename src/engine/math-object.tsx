@@ -143,10 +143,10 @@ export class MathObject {
         let r = this.getCursorRectData();
         if (r) {
             this.cursorSvgNode.update(r);
-            Utils.Dom.appendTo(this.cursorSvgNode.el, this.cursorSvgElem);
+            Utils.Dom.appendTo(this.cursorSvgNode.getElement(), this.cursorSvgElem);
         }
         else {
-            Utils.Dom.removeFromParent(this.cursorSvgNode.el);
+            Utils.Dom.removeFromParent(this.cursorSvgNode.getElement());
         }
     }
 
