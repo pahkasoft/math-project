@@ -1,8 +1,8 @@
-import { Nodes } from "engine/nodes";
-import { Parser } from "parser";
+import { Nodes } from "@tspro/math-lib/engine";
+import { Parser } from "@tspro/math-lib/parser";
 import { Assert } from "@tspro/ts-utils-lib";
-import { BigNumber, isNumberArgument, MathContext, RoundingMode } from "bigmath";
-import { Matrix } from "eval";
+import { BigNumber, isNumberArgument, MathContext } from "@tspro/math-lib/bigmath";
+import { Matrix } from "@tspro/math-lib/eval";
 
 function fixDigits(digits: string) {
     // Begin digits with 0 if first digit is letter (base > 10)

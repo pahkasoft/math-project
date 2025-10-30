@@ -1,22 +1,21 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "esnext",
         "baseUrl": "./src",
-        "rootDir": "./src",
         "outDir": "./dist",
         "lib": [
-            "ES2015",
-            "DOM"
+            "es2015",
+            "dom"
         ],
-        "module": "es2015",
-        "moduleResolution": "bundler",
-        "declaration": true,
-        "declarationDir": "./dist/types",
-        "declarationMap": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "declaration": false,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "allowJs": true,
-        "jsx": "react",
+        "allowJs": false,
+        "jsx": "react-jsx",
         "resolveJsonModule": true,
         "strict": true,
         "strictNullChecks": true,
@@ -24,15 +23,29 @@
         "noImplicitThis": true,
         "noImplicitReturns": true,
         "alwaysStrict": true,
-        "removeComments": true,
-        "allowSyntheticDefaultImports": true,
-        "skipLibCheck": true // Fix typedoc issue
+        "removeComments": false,
+        "skipLibCheck": true,
+        "paths": {
+            "@tspro/math-lib/parser": [
+                "parser"
+            ],
+            "@tspro/math-lib/engine": [
+                "engine"
+            ],
+            "@tspro/math-lib/eval": [
+                "eval"
+            ],
+            "@tspro/math-lib/bigmath": [
+                "bigmath"
+            ],
+        }
     },
     "include": [
-        "src/**/*"
+        "src/**/*.ts"
     ],
     "exclude": [
-        "node-modules/**/*"
+        "node_modules",
+        "dist"
     ],
     "compileOnSave": false
 }

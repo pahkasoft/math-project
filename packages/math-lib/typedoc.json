@@ -1,11 +1,19 @@
 {
     "tsconfig": "./tsconfig.json",
     "entryPoints": [
-        "./src/index.ts"
+        "./src/bigmath/index.ts",
+        "./src/engine/index.ts",
+        "./src/eval/index.ts",
+        "./src/parser/index.ts"
     ],
     "out": "docs/",
-    "readme": "README.md",
     "disableSources": true,
+    "excludeInternal": true,
     "excludePrivate": true,
-    "excludeProtected": true
+    "excludeProtected": true,
+    "externalSymbolLinkMappings": {
+        "@types/react": {
+            "*": "#"
+        }
+    }
 }

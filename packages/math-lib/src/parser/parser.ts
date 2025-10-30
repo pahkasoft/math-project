@@ -1,4 +1,4 @@
-import { Nodes } from "engine/nodes";
+import { Nodes } from "@tspro/math-lib/engine";
 import { Grammar } from "./grammar";
 import { Assert, Utils } from "@tspro/ts-utils-lib";
 import Fmt from "@tspro/brace-format";

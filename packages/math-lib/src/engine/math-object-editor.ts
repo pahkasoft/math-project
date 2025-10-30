@@ -1,7 +1,7 @@
 import { MathObject } from "./math-object";
 import { Nodes } from "./nodes";
 import { ExpressionPath } from "./expression-path";
-import { Grammar } from "parser/grammar";
+import { Grammar } from "@tspro/math-lib/parser";
 import { Assert, Utils } from "@tspro/ts-utils-lib";
 
 export type SelectionPos = number | "left" | "right";

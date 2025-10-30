@@ -2,7 +2,7 @@ import { DivRect } from "./div-rect";
 import { Nodes } from "./nodes";
 import { MathObject } from "./math-object";
 import { Svg } from "./svg";
-import { BracketSymbol } from "parser/vocabulary";
+import { BracketSymbol } from "@tspro/math-lib/parser";
 import { Utils, Device } from "@tspro/ts-utils-lib";
 
 function getFontName() {

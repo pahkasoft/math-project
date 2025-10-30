@@ -1,5 +1,5 @@
 import { Utils } from "@tspro/ts-utils-lib";
-import { BigNumber, MathContext } from "bigmath";
+import { BigNumber, MathContext } from "../..";
 
 declare global {
     namespace jasmine {

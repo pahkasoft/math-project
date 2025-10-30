@@ -1,4 +1,4 @@
-import { MathContext, RoundingMode } from "bigmath";
+import { MathContext, RoundingMode } from "..";
 
 describe(MathContext.name, () => {
     it("MathContext", () => {

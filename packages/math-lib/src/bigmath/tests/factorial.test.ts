@@ -1,4 +1,4 @@
-import { BigNumber, NumberArgument } from "bigmath";
+import { BigNumber, NumberArgument } from "..";
 import { real_mc } from "./helpers/common";
 import { toEqualInMcMatcher } from "./helpers/matchers";
 

@@ -1,6 +1,6 @@
 import Fmt from "@tspro/brace-format";
 import { Assert } from "@tspro/ts-utils-lib";
-import { BracketSymbol } from "parser/vocabulary";
+import { BracketSymbol } from "@tspro/math-lib/parser";
 
 export namespace Svg {
     const SVG_NS = "http://www.w3.org/2000/svg";

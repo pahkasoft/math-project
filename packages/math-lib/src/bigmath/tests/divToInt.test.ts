@@ -1,4 +1,4 @@
-import { BigNumber, IntegerDivisionMode, NumberArgument, MathContext } from "bigmath";
+import { BigNumber, IntegerDivisionMode, NumberArgument, MathContext } from "..";
 import { MC } from "./helpers/common";
 
 describe(BigNumber.name, () => {

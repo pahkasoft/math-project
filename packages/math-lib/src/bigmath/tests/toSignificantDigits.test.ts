@@ -1,5 +1,5 @@
-import { BigNumber, NumberArgument } from "bigmath";
-import { RoundingMode } from "bigmath";
+import { BigNumber, NumberArgument } from "..";
+import { RoundingMode } from "..";
 import { MC } from "./helpers/common";
 
 describe(BigNumber.name, () => {

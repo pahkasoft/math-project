@@ -1,4 +1,4 @@
-import { MathContext, RoundingMode } from "bigmath";
+import { MathContext, RoundingMode } from "../..";
 
 export function MC(base: number, precision: number, roundingMode?: RoundingMode) {
     return new MathContext(base, precision, roundingMode ?? RoundingMode.HalfUp);

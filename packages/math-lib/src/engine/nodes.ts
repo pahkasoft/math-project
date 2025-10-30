@@ -1,12 +1,11 @@
 import { MathObject } from "./math-object";
-import { DivRect } from "engine/div-rect";
-import { Grammar } from "parser/grammar";
+import { DivRect } from "./div-rect";
 import { Assert, Device, Utils } from "@tspro/ts-utils-lib";
 import { Drawable } from "./drawable";
 import { ExpressionPath } from "./expression-path";
-import * as Eval from "eval";
-import { Vocabulary, BracketSymbol } from "parser/vocabulary";
-import { BigNumber } from "bigmath";
+import * as Eval from "@tspro/math-lib/eval";
+import { Vocabulary, BracketSymbol, Grammar } from "@tspro/math-lib/parser";
+import { BigNumber } from "@tspro/math-lib/bigmath";
 import Fmt from "@tspro/brace-format";
 
 /*

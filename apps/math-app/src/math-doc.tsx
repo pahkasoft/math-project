@@ -1,5 +1,8 @@
 import * as React from "react";
-import { BigMath, Engine, Eval, Parser } from "math-lib";
+import * as BigMath from "@tspro/math-lib/bigmath";
+import * as Engine from "@tspro/math-lib/engine";
+import * as Eval from "@tspro/math-lib/eval";
+import { Vocabulary } from "@tspro/math-lib/parser";
 import { MathApp } from "./math-app";
 import { Table } from "react-bootstrap";
 import { MathLine, MathLineComponent } from "math-line";
@@ -264,10 +267,10 @@ export class MathDocument extends React.Component<MathDocumentProps, MathDocumen
                 this.handleInput(MyInput.Enter);
             }
             else if (key === ":") {
-                this.handleInput(Parser.Vocabulary.opDeclare);
+                this.handleInput(Vocabulary.opDeclare);
             }
             else if (key === "/") {
-                this.handleInput(MyInput.InsertFunction, Parser.Vocabulary.frac);
+                this.handleInput(MyInput.InsertFunction, Vocabulary.frac);
             }
             else {
                 this.handleInput(key);

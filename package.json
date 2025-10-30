@@ -5,11 +5,15 @@
     "license": "MIT",
     "private": true,
     "workspaces": [
-        "./packages/*",
-        "./apps/*"
+        "./packages/math-lib",
+        "./apps/math-app"
     ],
     "scripts": {
-        "build:dev (all workspaces)": "npm run build:dev --workspaces --if-present",
-        "build:prod (all workspaces)": "npm run build:prod --workspaces --if-present"
+        "build:math-lib": "npm run build:prod --workspace packages/math-lib",
+        "test:math-lib": "npm run test --workspace packages/math-lib",
+        "docs:math-lib": "npm run docs --workspace packages/math-lib",
+        "build:math-app": "npm run build:prod --workspace apps/math-app",
+        "start:math-app": "npm run start --workspace apps/math-app",
+        "build:all": "npm run build:prod --workspaces --if-present"
     }
 }

@@ -1,5 +1,7 @@
 import * as React from "react";
-import { BigMath, Engine, Eval } from "math-lib";
+import * as Eval from "@tspro/math-lib/eval";
+import * as Engine from "@tspro/math-lib/engine";
+import * as BigMath from "@tspro/math-lib/bigmath";
 import { MathDocument } from "math-doc";
 
 export class MathLine {

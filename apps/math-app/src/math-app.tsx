@@ -2,7 +2,8 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { MathDocument } from "./math-doc";
 import { Button, ButtonGroup, Modal, Navbar } from "react-bootstrap";
-import { Eval, Parser } from "math-lib";
+import * as Eval from "@tspro/math-lib/eval";
+import { Vocabulary } from "@tspro/math-lib/parser";
 import * as Ui from "ui";
 import { MyInput } from "ui/my-input";
 import { Assert, Cookies, Utils } from "@tspro/ts-utils-lib";
@@ -142,8 +143,8 @@ export class MathApp extends React.Component<{}, MatfAppState> {
         }
 
         const insertOperator = (op: string) => {
-            if (op === Parser.Vocabulary.frac) {
-                insertFunction(Parser.Vocabulary.frac);
+            if (op === Vocabulary.frac) {
+                insertFunction(Vocabulary.frac);
             }
             else {
                 this.doc?.handleInput(op);

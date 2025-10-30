@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Nodes } from "./nodes"
-import { EvalDeclValue, EvalState } from "eval";
+import { EvalDeclValue, EvalState } from "@tspro/math-lib/eval";
 import { Svg } from "./svg";
 import { Drawable } from "./drawable";
 import { ExpressionPath } from "./expression-path";
-import { Parser } from "parser/parser";
+import { Parser } from "@tspro/math-lib/parser";
 import { MathObjectEditor } from "./math-object-editor";
 import { MathObjectHistory, MathObjectPage } from "./math-object-history";
 import { Assert, Device, Utils } from "@tspro/ts-utils-lib";

@@ -1,4 +1,4 @@
-import { BigNumber, NumberArgument } from "bigmath";
+import { BigNumber, NumberArgument } from "..";
 import { MC } from "./helpers/common";
 
 describe(BigNumber.name, () => {
