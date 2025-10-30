@@ -1,19 +1,109 @@
 {
-    "name": "math-project",
+    "name": "@tspro/math-lib",
     "version": "1.0.0",
     "author": "PahkaSoft",
     "license": "MIT",
     "private": true,
+    "description": "",
+    "exports": {
+        "./bigmath": {
+            "require": {
+                "types": "./dist/bigmath/index.d.ts",
+                "default": "./dist/bigmath/index.js"
+            },
+            "import": {
+                "types": "./dist/bigmath/index.d.mts",
+                "default": "./dist/bigmath/index.mjs"
+            }
+        },
+        "./engine": {
+            "require": {
+                "types": "./dist/engine/index.d.ts",
+                "default": "./dist/engine/index.js"
+            },
+            "import": {
+                "types": "./dist/engine/index.d.mts",
+                "default": "./dist/engine/index.mjs"
+            }
+        },
+        "./eval": {
+            "require": {
+                "types": "./dist/eval/index.d.ts",
+                "default": "./dist/eval/index.js"
+            },
+            "import": {
+                "types": "./dist/eval/index.d.mts",
+                "default": "./dist/eval/index.mjs"
+            }
+        },
+        "./parser": {
+            "require": {
+                "types": "./dist/parser/index.d.ts",
+                "default": "./dist/parser/index.js"
+            },
+            "import": {
+                "types": "./dist/parser/index.d.mts",
+                "default": "./dist/parser/index.mjs"
+            }
+        },
+        "./styles/style.css": "./dist/styles/style.css",
+        "./styles/theme.css": "./dist/styles/theme.css"
+    },
+    "unpkg": "./dist/iife/index.global.js",
+    "dependencies": {
+        "@tspro/brace-format": "^4.0.1",
+        "@tspro/ts-utils-lib": "^1.20.0",
+        "random-js": "^2.1.0"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.28.3",
+        "@babel/core": "^7.28.5",
+        "@babel/preset-env": "^7.28.5",
+        "@babel/preset-react": "^7.28.5",
+        "@types/jasmine": "^5.1.12",
+        "@types/react": "^19.2.2",
+        "@types/react-dom": "^19.2.2",
+        "@webpack-cli/serve": "^3.0.1",
+        "babel-loader": "^10.0.0",
+        "clean-webpack-plugin": "^4.0.0",
+        "jasmine": "^5.12.0",
+        "karma": "^6.4.4",
+        "karma-chrome-launcher": "^3.2.0",
+        "karma-cli": "^2.0.0",
+        "karma-firefox-launcher": "^2.1.3",
+        "karma-jasmine": "^5.1.0",
+        "karma-sourcemap-loader": "^0.4.0",
+        "karma-webpack": "^5.0.1",
+        "ts-loader": "^9.5.4",
+        "tsup": "^8.5.0",
+        "typedoc": "^0.28.14",
+        "typescript": "^5.9.3",
+        "webpack": "^5.102.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.2"
+    },
+    "watch": {
+        "build:dev": {
+            "patterns": [
+                "src"
+            ],
+            "extensions": "ts,tsx",
+            "quiet": false
+        }
+    },
     "workspaces": [
-        "./packages/math-lib",
+        ".",
         "./apps/math-app"
     ],
     "scripts": {
-        "build:math-lib": "npm run build:prod --workspace packages/math-lib",
-        "test:math-lib": "npm run test --workspace packages/math-lib",
-        "docs:math-lib": "npm run docs --workspace packages/math-lib",
-        "build:math-app": "npm run build:prod --workspace apps/math-app",
+        "build": "tsup",
+        "build:all": "npm run build --workspaces --if-present",
+        "build:math-app": "npm run build --workspace apps/math-app",
         "start:math-app": "npm run start --workspace apps/math-app",
-        "build:all": "npm run build:prod --workspaces --if-present"
-    }
+        "test": "karma start",
+        "docs": "typedoc"
+    },
+    "browserslist": [
+        "defaults"
+    ]
 }
