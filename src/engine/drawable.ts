@@ -1,9 +1,8 @@
-import { DivRect } from "./div-rect";
 import { Nodes } from "./nodes";
 import { MathObject } from "./math-object";
 import { Svg } from "./svg";
 import { BracketSymbol } from "@tspro/math-lib/parser";
-import { Utils, Device } from "@tspro/ts-utils-lib";
+import { Utils, Device, Rect, AnchoredRect } from "@tspro/ts-utils-lib";
 
 function getFontName() {
     return "Comic Sans";
@@ -65,7 +64,7 @@ export namespace Drawable {
 
     export abstract class Drawable {
 
-        public readonly bounds = new DivRect();
+        public readonly bounds = new Rect();
         public readonly elem = this.createSpan();
         protected svgNode?: SVGSVGElement;
 
@@ -116,11 +115,11 @@ export namespace Drawable {
         }
 
         protected updateBoundsSize(w: number, h: number) {
-            this.bounds.setSize(w, h);
+            this.bounds.set(w, h);
             if (this.svgNode) {
                 Svg.setRect(this.svgNode, 0, 0, w, h);
             }
-            return this.bounds;
+            return this.bounds.toAnchoredRect();
         }
 
         protected beforeLayout() {
@@ -129,7 +128,7 @@ export namespace Drawable {
         }
 
         offset(x: number = 0, y: number = 0) {
-            this.bounds.offset(x, y);
+            this.bounds.offsetInPlace(x, y);
             Utils.Dom.setOffset(this.elem, this.bounds.left, this.bounds.top, "px");
         }
     }
@@ -153,7 +152,7 @@ export namespace Drawable {
             return this._text;
         }
 
-        layout(): DivRect {
+        layout(): AnchoredRect {
             super.beforeLayout();
             let w = Utils.Dom.getWidth(this.elem);
             let h = Utils.Dom.getHeight(this.elem);
@@ -163,7 +162,7 @@ export namespace Drawable {
             return this.updateBoundsSize(w, h);
         }
 
-        layoutScaledDown() {
+        layoutScaledDown(): AnchoredRect {
             if (this.mathObject) {
                 this.mathObject.scaleDown();
                 let r = this.layout();
@@ -185,7 +184,7 @@ export namespace Drawable {
             this.setSvgElem(this.lineSvgNode.el);
         }
 
-        layout(width: number, toph: number, bottomh: number): DivRect {
+        layout(width: number, toph: number, bottomh: number): AnchoredRect {
             super.beforeLayout();
 
             this.lineSvgData.x1 = 0;
@@ -209,7 +208,7 @@ export namespace Drawable {
             this.setSvgElem(this.bracketSvgNode.el);
         }
 
-        layout(height: number): DivRect {
+        layout(height: number): AnchoredRect {
             super.beforeLayout();
             this.bracketSvgData.left = 0;
             this.bracketSvgData.top = 0;
@@ -235,7 +234,7 @@ export namespace Drawable {
             this.setSvgElem(this.radicalSvgNode.el);
         }
 
-        layout(exprWidth: number, exprHeight: number): DivRect {
+        layout(exprWidth: number, exprHeight: number): AnchoredRect {
             super.beforeLayout();
 
             this.radicalSymbolWidth = this.font.size * 0.6;

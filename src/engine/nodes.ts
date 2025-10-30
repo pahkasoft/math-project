@@ -1,6 +1,5 @@
 import { MathObject } from "./math-object";
-import { DivRect } from "./div-rect";
-import { Assert, Device, Utils } from "@tspro/ts-utils-lib";
+import { Assert, Device, Utils, AnchoredRect } from "@tspro/ts-utils-lib";
 import { Drawable } from "./drawable";
 import { ExpressionPath } from "./expression-path";
 import * as Eval from "@tspro/math-lib/eval";
@@ -104,7 +103,7 @@ export namespace Nodes {
         private _parent?: NNode;
         protected _needUpdate = true;
 
-        public readonly bounds = new DivRect();
+        public readonly bounds = new AnchoredRect();
 
         constructor(public readonly className: string) {
         }
@@ -160,7 +159,7 @@ export namespace Nodes {
             return [];
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [];
         }
 
@@ -181,12 +180,12 @@ export namespace Nodes {
         offset(x: number, y: number) {
             this.getDrawableList().forEach(d => d.offset(x, y));
             this.getNodeList().forEach(n => n.offset(x, y));
-            this.bounds.offset(x, y);
+            this.bounds.offsetInPlace(x, y);
         }
 
-        abstract layout(): DivRect;
+        abstract layout(): AnchoredRect;
 
-        layoutScaledDown(): DivRect {
+        layoutScaledDown(): AnchoredRect {
             if (this.mathObject) {
                 this.mathObject.scaleDown();
                 let r = this.layout();
@@ -309,7 +308,7 @@ export namespace Nodes {
             return this._text;
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableText];
         }
 
@@ -321,9 +320,10 @@ export namespace Nodes {
             let p = this.padding;
             let r = this.drawableText.layout();
 
-            r.offset(p, 0);
+            r.offsetInPlace(p, 0);
 
-            this.bounds.setSize(p + r.width + p, r.toph, r.bottomh);
+            let w = p + r.width + p;
+            this.bounds.set(0, w / 2, w, 0, r.toph, r.height);
 
             return this.bounds;
         }
@@ -488,7 +488,7 @@ export namespace Nodes {
             return this.arr;
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableBallot];
         }
 
@@ -505,7 +505,7 @@ export namespace Nodes {
         }
 
         getNode(index: number) {
-            return Assert.array_elem(this.arr ,index, "NExpression.getNode()");
+            return Assert.array_elem(this.arr, index, "NExpression.getNode()");
         }
 
         indexOf(node: NNode): number {
@@ -638,7 +638,8 @@ export namespace Nodes {
             if (this.nodeCount() === 0) {
                 let visible = this.drawableBallot.visible = !(this.parent instanceof NCalculation || this.parent instanceof NBracket);
                 let r = this.drawableBallot.layout();
-                return this.bounds.setSize(visible ? r.width : 0, r.toph, r.bottomh);
+                let w = visible ? r.width : 0;
+                return this.bounds.set(0, w / 2, w, 0, r.toph, r.height);
             }
             else {
                 this.drawableBallot.visible = false;
@@ -658,7 +659,7 @@ export namespace Nodes {
                     x += n.bounds.width;
                 });
 
-                return this.bounds.setSize(width, toph, bottomh);
+                return this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
 
             }
         }
@@ -794,7 +795,7 @@ export namespace Nodes {
             return e instanceof NExpression ? [e] : [];
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             let e = this.getElement();
             return e instanceof Drawable.Text ? [this.drawableBallot, e] : [this.drawableBallot];
         }
@@ -813,10 +814,13 @@ export namespace Nodes {
             this.drawableBallot.setText(this.superscript && !this.prevNode ? BALLOT_SYMBOL : "");
 
             let elem = this.getElement();
-            let elemR;
+            let elemR: AnchoredRect;
 
             if (this.scaleDownElem) {
                 elemR = elem.layoutScaledDown();
+            }
+            else if (elem instanceof NExpression) {
+                elemR = elem.layout();
             }
             else {
                 elemR = elem.layout();
@@ -842,7 +846,7 @@ export namespace Nodes {
             this.drawableBallot.offset(0, toph + bottomh - ballotR.height);
             elem.offset(ballotR.width, 0);
 
-            this.bounds.setSize(width, toph, bottomh);
+            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
 
             return this.bounds;
         }
@@ -959,7 +963,7 @@ export namespace Nodes {
             return [this.baseExpr, this.argExpr];
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableText, this.drawableLeftBracket, this.drawableRightBracket];
         }
 
@@ -995,7 +999,7 @@ export namespace Nodes {
             this.drawableRightBracket.offset(nameR.width + baseW + leftBrR.width + argR.width, 0);
             this.baseExpr.offset(nameR.width, toph);
 
-            this.bounds.setSize(width, toph, bottomh);
+            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
 
             return this.bounds;
         }
@@ -1066,7 +1070,7 @@ export namespace Nodes {
             }
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableFractionLine];
         }
 
@@ -1077,7 +1081,7 @@ export namespace Nodes {
 
             let p = getPadding();
 
-            let kokR = this.wholeExpr ? this.wholeExpr.layout() : new DivRect();
+            let kokR = this.wholeExpr ? this.wholeExpr.layout() : new AnchoredRect();
             let osoR = this.numeratorExpr.layout();
             let nimR = this.denominatorExpr.layout();
 
@@ -1085,7 +1089,8 @@ export namespace Nodes {
             let toph = Math.max(kokR.toph, osoR.height);
             let bottomh = Math.max(kokR.bottomh, nimR.height);
 
-            this.bounds.setSize(p + kokR.width + 2 * p + fwidth + 2 * p, toph + p, p + bottomh);
+            let w = p + kokR.width + 2 * p + fwidth + 2 * p;
+            this.bounds.set(0, w / 2, w, 0, toph + p, toph + bottomh + 2 * p);
 
             this.wholeExpr && this.wholeExpr.offset(p, p + toph - kokR.toph);
 
@@ -1149,7 +1154,7 @@ export namespace Nodes {
             return [this.expression];
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableLeftBracket, this.drawableRightBracket];
         }
 
@@ -1168,7 +1173,7 @@ export namespace Nodes {
 
             let width = lbR.width + r.width + rbR.width;
 
-            this.bounds.setSize(width, toph, bottomh);
+            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
 
             this.drawableLeftBracket.offset(0, 0);
             this.expression.offset(lbR.width, 0);
@@ -1288,7 +1293,7 @@ export namespace Nodes {
             return this.indexExpr ? [this.indexExpr, this.argExpr] : [this.argExpr];
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableRadical];
         }
 
@@ -1319,13 +1324,8 @@ export namespace Nodes {
 
             this.argExpr.offset(p + radSymbolX + radSymW, drop);
 
-            this.bounds.set(
-                0,
-                p + radSymbolX + radSymW + argR.width + p,
-                0,
-                argR.center,
-                argR.bottom);
-
+            let w = p + radSymbolX + radSymW + argR.width + p;
+            this.bounds.set(0, w / 2, w, 0, argR.anchorY, argR.bottom);
 
             return this.bounds;
         }
@@ -1413,7 +1413,7 @@ export namespace Nodes {
             return [this.varExpr, this.fromExpr, this.toExpr, this.fnExpr];
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableSym, this.drawableEq, this.drawableLeftBracket, this.drawableRightBracket];
         }
 
@@ -1435,10 +1435,11 @@ export namespace Nodes {
 
             let uprR = toR;
             let midR = symR;
-            let lwrR = new DivRect().setSize(
-                varR.width + eqR.width + fromR.width,
-                Math.max(varR.toph, eqR.toph, fromR.toph),
-                Math.max(varR.bottomh, eqR.bottomh, fromR.bottomh));
+
+            let w = varR.width + eqR.width + fromR.width;
+            let toph = Math.max(varR.toph, eqR.toph, fromR.toph);
+            let bottomh = Math.max(varR.bottomh, eqR.bottomh, fromR.bottomh);
+            let lwrR = new AnchoredRect(0, w / 2, w, 0, toph, toph + bottomh);
 
             let symCntrX = Math.max(uprR.width, midR.width, lwrR.width) / 2;
 
@@ -1456,10 +1457,10 @@ export namespace Nodes {
             this.fnExpr.offset(x + lbR.width, uprR.height + midR.height / 2 - fnR.height / 2);
             this.drawableRightBracket.offset(x + lbR.width + fnR.width, uprR.height + midR.height / 2 - fnR.height / 2);
 
-            this.bounds.setSize(
-                x + lbR.width + fnR.width + rbR.width + p,
-                uprR.height + midR.toph,
-                lwrR.height + midR.bottomh);
+            let _w = x + lbR.width + fnR.width + rbR.width + p;
+            let _toph = uprR.height + midR.toph;
+            let _bottomh = lwrR.height + midR.bottomh;
+            this.bounds.set(0, _w / 2, _w, 0, _toph, _toph + _bottomh);
 
             return this.bounds;
         }
@@ -1615,7 +1616,7 @@ export namespace Nodes {
             return this.cells;
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [this.drawableLeftBracket, this.drawableRightBracket];
         }
 
@@ -1775,7 +1776,7 @@ export namespace Nodes {
             return [this.expr, ...this.resultExprList];
         }
 
-        getDrawableList(): Drawable.Drawable[] {
+        protected getDrawableList(): Drawable.Drawable[] {
             return [];
         }
 
@@ -1800,7 +1801,7 @@ export namespace Nodes {
                 bottomh = Math.max(bottomh, r.bottomh);
             });
 
-            this.bounds.setSize(width, toph, bottomh);
+            this.bounds.set(0, width / 2, width, 0, toph, toph + bottomh);
 
             let x = 0;
             expr.offset(x, toph - exprR.toph);
