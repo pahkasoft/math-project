@@ -1,4 +1,3 @@
-import Fmt from "@tspro/brace-format";
 import { Assert } from "@tspro/ts-utils-lib";
 import { BracketSymbol } from "@tspro/math-lib/parser";
 
@@ -259,7 +258,7 @@ export namespace Svg {
                 ], strokeWidth);
             }
             else {
-                Assert.interrupt(Fmt.format("Bracket \"{}\" not implemented!", sym));
+                Assert.fail(`Bracket "${sym}" not implemented!`);
             }
             return el;
         }
@@ -275,7 +274,7 @@ export namespace Svg {
     }
 
     function svgPathSetPolyLine(path: SVGPathElement, pts: number[], sw: number, strokeColor?: string) {
-        Assert.int_gte(pts.length, 4, "Invalid poly line.");
+        Assert.isIntegerGte(pts.length, 4, "Invalid poly line.");
         Assert.assert(pts.length % 2 === 0, "Invalid poly line.");
 
         let i = 0;
