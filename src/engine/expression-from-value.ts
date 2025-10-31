@@ -26,7 +26,7 @@ class ExpressionCreator {
             result = this.createMatrixExpression(x);
         }
         else {
-            Assert.interrupt("Result is needed.");
+            Assert.fail("Result is needed.");
         }
 
         if (insertEqualSymbol) {

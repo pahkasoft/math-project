@@ -74,12 +74,12 @@ export class MathDocument extends React.Component<MathDocumentProps, MathDocumen
 
     getLine(lineId: number): MathLine {
         let { lines } = this.state;
-        return Assert.array_elem(lines, lineId);
+        return Assert.requireElement(lineId, lines);
     }
 
     getActiveLine(): MathLine {
         let { lines } = this.state;
-        return Assert.array_elem(lines, lines.length - 1);
+        return Assert.requireElement(lines.length - 1, lines);
     }
 
     addLineGetState(removeLines = false): MathDocumentState {
@@ -231,9 +231,9 @@ export class MathDocument extends React.Component<MathDocumentProps, MathDocumen
             case MyInput.InsertMatrix:
                 if (data && data.indexOf("M") >= 0 && data.indexOf("x") >= 0) {
                     // Format: "M3x3"
-                    let rows = +data.charAt(data.indexOf("M") + 1);
-                    let cols = +data.charAt(data.indexOf("x") + 1);
-                    editor.insertMatrix(Assert.int_gt(rows, 0), Assert.int_gt(cols, 0));
+                    let rows = Assert.isIntegerGte(+data.charAt(data.indexOf("M") + 1), 1);
+                    let cols = Assert.isIntegerGte(+data.charAt(data.indexOf("x") + 1), 1);
+                    editor.insertMatrix(rows, cols);
                 }
                 else {
                     onUnhandledInput();

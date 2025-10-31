@@ -26,7 +26,7 @@ export class MathObjectHistory {
     }
 
     private validate() {
-        Assert.int_between(this.curPageId, 0, this.pageList.length - 1);
+        Assert.isIndex(this.curPageId, this.pageList);
     }
 
     empty() {

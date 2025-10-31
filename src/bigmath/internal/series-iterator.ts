@@ -55,7 +55,7 @@ export function seriesIterator(props: SeriesProps, x: BigNumber, mcArg: MathCont
         result = result.add(term, mc);
 
         if (++steps > MaxSteps) {
-            Assert.interrupt("Series iterator: " + props.name + "(" + x.toString() + ") reached max steps " + MaxSteps + ".");
+            Assert.fail("Series iterator: " + props.name + "(" + x.toString() + ") reached max steps " + MaxSteps + ".");
         }
         else if (prev.eq(result, mc)) {
             break;

@@ -37,7 +37,7 @@ export const requireBigNumber = (a: EvalValue | undefined): BigNumber => {
         return a;
     }
     else {
-        Assert.interrupt("Required BigNumber, got \"" + a + "\".");
+        Assert.fail("Required BigNumber, got \"" + a + "\".");
     }
 }
 

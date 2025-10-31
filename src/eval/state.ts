@@ -31,7 +31,7 @@ class Params {
     constructor(params?: string[], args?: EvalValue[]) {
         Assert.assert(params && args || !params && !args);
         if (params && args) {
-            let n = Assert.eq(params.length, args.length);
+            let n = Assert.isStrictEqual(params.length, args.length);
             for (let i = 0; i < n; i++) {
                 this.variables.set(params[i], args[i]);
             }

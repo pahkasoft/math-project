@@ -31,8 +31,8 @@ export class Matrix {
     constructor(public readonly nrows: number, public readonly ncols: number, setFn: MatrixSetFunction) {
         this.rows = [];
 
-        Assert.int_gte(this.nrows, 1, "nrows");
-        Assert.int_gte(this.ncols, 1, "ncols");
+        Assert.isIntegerGte(this.nrows, 1, "nrows");
+        Assert.isIntegerGte(this.ncols, 1, "ncols");
 
         this.rows = new Array(this.nrows);
         for (let i = 0; i < this.nrows; i++) {
@@ -44,8 +44,8 @@ export class Matrix {
     }
 
     cell(row: number, col: number, value?: CellInputValue): EvalValue {
-        Assert.int_between(row, 0, this.nrows - 1, "row");
-        Assert.int_between(col, 0, this.ncols - 1, "row");
+        Assert.isIntegerBetween(row, 0, this.nrows - 1, "row");
+        Assert.isIntegerBetween(col, 0, this.ncols - 1, "row");
 
         if (value !== undefined) {
             return this.rows[row][col] = cellInputToEvalValue(value);
@@ -64,8 +64,8 @@ export class Matrix {
     }
 
     removeRowAndColumn(row: number, col: number): Matrix {
-        Assert.int_gt(this.nrows, 1);
-        Assert.int_gt(this.ncols, 1);
+        Assert.isIntegerGt(this.nrows, 1);
+        Assert.isIntegerGt(this.ncols, 1);
         return new Matrix(this.nrows - 1, this.ncols - 1, (r, c) => {
             return this.cell(r >= row ? (r + 1) : r, c >= col ? (c + 1) : c);
         });

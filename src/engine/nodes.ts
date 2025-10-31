@@ -58,39 +58,39 @@ export namespace Nodes {
     export function createDecoratedFunction(name: string, args: Nodes.NExpression[] = []): NDecoratedFunction | undefined {
         switch (name) {
             case Vocabulary.abs: {
-                Assert.in_group(args.length, [0, 1]);
+                Assert.isIncluded(args.length, [0, 1]);
                 return new Nodes.NAbs().setArgs(...args);
             }
             case Vocabulary.floor: {
-                Assert.in_group(args.length, [0, 1]);
+                Assert.isIncluded(args.length, [0, 1]);
                 return new Nodes.NFloor().setArgs(...args);
             }
             case Vocabulary.ceil: {
-                Assert.in_group(args.length, [0, 1]);
+                Assert.isIncluded(args.length, [0, 1]);
                 return new Nodes.NCeil().setArgs(...args);
             }
             case Vocabulary.frac: {
-                Assert.in_group(args.length, [0, 2, 3]);
+                Assert.isIncluded(args.length, [0, 2, 3]);
                 return new Nodes.NFraction().setArgs(...args);
             }
             case Vocabulary.sqrt: {
-                Assert.in_group(args.length, [0, 1]);
+                Assert.isIncluded(args.length, [0, 1]);
                 return new Nodes.NRadical(true).setArgs(...args);
             }
             case Vocabulary.nthroot: {
-                Assert.in_group(args.length, [0, 2]);
+                Assert.isIncluded(args.length, [0, 2]);
                 return new Nodes.NRadical(false).setArgs(...args);
             }
             case Vocabulary.log: {
-                Assert.in_group(args.length, [0, 2]);
+                Assert.isIncluded(args.length, [0, 2]);
                 return new Nodes.NLogarithm().setArgs(...args);
             }
             case Vocabulary.summation: {
-                Assert.in_group(args.length, [0, 4]);
+                Assert.isIncluded(args.length, [0, 4]);
                 return new Nodes.NSummation().setArgs(...args);
             }
             case Vocabulary.product: {
-                Assert.in_group(args.length, [0, 4]);
+                Assert.isIncluded(args.length, [0, 4]);
                 return new Nodes.NProduct().setArgs(...args);
             }
             default:
@@ -229,10 +229,10 @@ export namespace Nodes {
         }
         protected taskInitialize(state: Eval.EvalState): Promise<number> {
             // Override to get step count
-            Assert.interrupt("Override!");
+            Assert.fail("Override!");
         }
         protected taskDoStep(stepIndex: number, state: Eval.EvalState): Promise<Eval.EvalValue> {
-            Assert.interrupt("Override!");
+            Assert.fail("Override!");
         }
 
         private taskEvaluate(state: Eval.EvalState) {
@@ -295,7 +295,7 @@ export namespace Nodes {
 
         text(text?: string): string {
             if (text !== undefined) {
-                Assert.int_gt(text.length, 0, "Text length.");
+                Assert.isNonEmptyString(text, "Emptytext.");
                 Assert.assert(this.validate(text), Fmt.format("Validating \"{}\".", text));
 
                 this._text = text;
@@ -512,7 +512,7 @@ export namespace Nodes {
         }
 
         getNode(index: number) {
-            return Assert.array_elem(this.arr, index, "NExpression.getNode()");
+            return Assert.requireElement(index, this.arr, "NExpression.getNode()");
         }
 
         indexOf(node: NNode): number {
@@ -528,28 +528,12 @@ export namespace Nodes {
         }
 
         removeNode(arg: NNode | number) {
-            let index: number;
-
-            if (arg instanceof NNode) {
-                index = this.arr.indexOf(arg);
-            }
-            else {
-                index = arg;
-            }
-
-            Assert.int(index, "removeNode");
-
+            let index = arg instanceof NNode ? this.arr.indexOf(arg) : arg;
             return this.splice(index, 1);
         }
 
         removeNodeRange(start: number, end?: number): NNode[] {
-            if (end === undefined) {
-                end = this.arr.length;
-            }
-
-            Assert.int(start);
-            Assert.int(end);
-
+            end ??= this.arr.length;
             return this.splice(start, end - start);
         }
 
@@ -560,9 +544,8 @@ export namespace Nodes {
         replaceNode(node: NNode, replaceWith: NNode | NNode[]) {
             let index = this.indexOf(node);
 
-            if (replaceWith instanceof NNode) {
+            if (replaceWith instanceof NNode)
                 replaceWith = [replaceWith];
-            }
 
             return this.splice(index, 1, ...replaceWith);
         }
@@ -572,9 +555,9 @@ export namespace Nodes {
         }
 
         splice(index: number, removeCount: number, ...addNodes: NNode[]) {
-            Assert.int_gte(index, 0);
-            Assert.int_gte(removeCount, 0);
-            Assert.int_lte(index + removeCount, this.arr.length);
+            Assert.isIndex(index);
+            Assert.isIntegerGte(removeCount, 0);
+            Assert.isIntegerLte(index + removeCount, this.arr.length);
             Assert.assert(addNodes.every(n => n instanceof NNode));
 
             addNodes.forEach(n => {
@@ -769,19 +752,13 @@ export namespace Nodes {
 
         insertAfter(afterWhat: NNode, insertWhat: NNode) {
             Assert.assert(afterWhat.parent === this);
-
-            let index = this.indexOf(afterWhat);
-            Assert.int_gte(index, 0);
-
+            let index = Assert.isIndex(this.indexOf(afterWhat));
             this.insertNodes(index + 1, insertWhat);
         }
 
         insertBefore(beforeWhat: NNode, insertWhat: NNode) {
             Assert.assert(beforeWhat.parent === this);
-
-            let index = this.indexOf(beforeWhat);
-            Assert.int_gte(index, 0);
-
+            let index = Assert.isIndex(this.indexOf(beforeWhat));
             this.insertNodes(index, insertWhat);
         }
 
@@ -1048,7 +1025,7 @@ export namespace Nodes {
             nodeRelease(this.numeratorExpr);
             nodeRelease(this.denominatorExpr);
             if (args.length > 0) {
-                Assert.in_group(args.length, [2, 3]);
+                Assert.isIncluded(args.length, [2, 3]);
                 this.wholeExpr = args.length === 3 ? args[0] : undefined;
                 this.numeratorExpr = args.length === 3 ? args[1] : args[0];
                 this.denominatorExpr = args.length === 3 ? args[2] : args[1];
@@ -1271,7 +1248,7 @@ export namespace Nodes {
 
         setArgs(...args: NExpression[]): NRadical {
             if (this.isSqrt) {
-                Assert.in_group(args.length, [0, 1]);
+                Assert.isIncluded(args.length, [0, 1]);
                 nodeRelease(this.indexExpr);
                 nodeRelease(this.argExpr);
                 this.indexExpr = undefined;
@@ -1280,7 +1257,7 @@ export namespace Nodes {
                 nodeAssign(this.argExpr, this);
             }
             else {
-                Assert.in_group(args.length, [0, 2]);
+                Assert.isIncluded(args.length, [0, 2]);
                 nodeRelease(this.indexExpr);
                 nodeRelease(this.argExpr);
                 this.indexExpr = args[0] ?? new NExpression();
@@ -1571,11 +1548,8 @@ export namespace Nodes {
         constructor(nrows: number, ncols: number) {
             super("NMatrix");
 
-            Assert.int_gte(nrows, 1)
-            Assert.int_gte(ncols, 1)
-
-            this.nrows = nrows;
-            this.ncols = ncols;
+            this.nrows = Assert.isIntegerGte(nrows, 1)
+            this.ncols = Assert.isIntegerGte(ncols, 1)
 
             this.drawableLeftBracket = new Drawable.Bracket(this, Drawable.ThemeStyle.Decoration, BracketSymbol.LeftSquareBracket);
             this.drawableRightBracket = new Drawable.Bracket(this, Drawable.ThemeStyle.Decoration, BracketSymbol.RightSquareBracket);
@@ -1612,8 +1586,8 @@ export namespace Nodes {
         }
 
         getCell(row: number, col: number): NExpression {
-            Assert.int_between(row, 0, this.nrows - 1);
-            Assert.int_between(col, 0, this.ncols - 1);
+            Assert.isIntegerBetween(row, 0, this.nrows - 1);
+            Assert.isIntegerBetween(col, 0, this.ncols - 1);
             return this.cells[row * this.ncols + col];
         }
 

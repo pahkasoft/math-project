@@ -45,7 +45,7 @@ export function roundDigits(props: NumberProps, precision: { significantDigits?:
         removeDigitCount = currentDp - Helpers.validateDecimalPlaces(precision.decimalPlaces);
     }
     else {
-        Assert.interrupt();
+        Assert.fail();
     }
 
     if (removeDigitCount <= 0) {
@@ -92,7 +92,7 @@ export function roundDigits(props: NumberProps, precision: { significantDigits?:
                 roundUp = props.sign > 0;
                 break;
             case RoundingMode.Unnecessary:
-                Assert.interrupt("Got RoundingMode.Unnecessary while attempting to round.");
+                Assert.fail("Got RoundingMode.Unnecessary while attempting to round.");
         }
     }
 

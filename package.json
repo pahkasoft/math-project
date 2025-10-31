@@ -52,7 +52,7 @@
     "unpkg": "./dist/iife/index.global.js",
     "dependencies": {
         "@tspro/brace-format": "^4.0.1",
-        "@tspro/ts-utils-lib": "^1.21.0",
+        "@tspro/ts-utils-lib": "^2.0.0",
         "random-js": "^2.1.0"
     },
     "devDependencies": {

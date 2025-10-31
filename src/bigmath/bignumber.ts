@@ -382,11 +382,11 @@ export class BigNumber {
                 }
             }
             else {
-                Assert.interrupt("BigNumber: invalid value " + value);
+                Assert.fail("BigNumber: invalid value " + value);
             }
         }
         else {
-            Assert.interrupt("BigNumber: invalid constructor arguments.");
+            Assert.fail("BigNumber: invalid constructor arguments.");
         }
 
         // value is finite.

@@ -121,7 +121,7 @@ export class MathObject {
     }
 
     scaleUp() {
-        this.fontLevel = Assert.int_gte(this.fontLevel - 1, 0, "font size");
+        this.fontLevel = Assert.isIntegerGte(this.fontLevel - 1, 0, "fontLevel");
     }
 
     getFont() {

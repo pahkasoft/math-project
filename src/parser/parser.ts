@@ -12,7 +12,7 @@ function throwError(errorMsg: string, line: string, column?: number): never {
     else {
         err = Fmt.format("[Error At Line]: {}\n{}", errorMsg, line);
     }
-    Assert.interrupt(err);
+    Assert.fail(err);
 }
 
 class Token {
@@ -259,8 +259,8 @@ export class Parser {
         let rows = cells.length;
         let cols = cells.length > 0 ? cells[0].length : 0;
 
-        Assert.int_gte(rows, 1, "Invalid rows.");
-        Assert.int_gte(cols, 1, "Invalid cols.");
+        Assert.isIntegerGte(rows, 1, "Invalid rows.");
+        Assert.isIntegerGte(cols, 1, "Invalid cols.");
         Assert.assert(cells.every(row => row.length === cols), "Matrix row lengths vary.");
 
         new Nodes.NMatrix(rows, cols).setCells(cells).addTo(expr);

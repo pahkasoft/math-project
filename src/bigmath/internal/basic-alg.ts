@@ -229,7 +229,7 @@ export namespace BasicAlg {
                     }
                     else if (divMC.precision === Infinity) {
                         if (remHistory.some(prev => rem.eq(prev, divMC))) {
-                            Assert.interrupt("Endless repeating division.");
+                            Assert.fail("Endless repeating division.");
                         }
                         else {
                             remHistory.push(rem);
@@ -276,7 +276,7 @@ export namespace BasicAlg {
             return { Q, R }
         }
         else {
-            Assert.interrupt("Invalid divMode");
+            Assert.fail("Invalid divMode");
         }
     }
 

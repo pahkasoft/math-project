@@ -21,7 +21,7 @@ export class MathObjectEditor {
 
     public set selectionPos(pos: number) {
         let maxPos = this.getPath().getMaxSelectionPos();
-        this._selectionPos = Assert.int_between(pos, 0, maxPos, "Invalid selection pos!");
+        this._selectionPos = Assert.isIntegerBetween(pos, 0, maxPos, "Invalid selection pos!");
         this.mathObject.requestUpdate();
     }
 
@@ -150,7 +150,7 @@ export class MathObjectEditor {
 
     private insertDecoratedFunction(parentExpr: Nodes.NExpression, symbolNodeBeforeBracket: Nodes.NSymbol) {
         let symbolNodeIndex = parentExpr.indexOf(symbolNodeBeforeBracket);
-        Assert.int_between(symbolNodeIndex, 0, parentExpr.nodeCount());
+        Assert.isIntegerBetween(symbolNodeIndex, 0, parentExpr.nodeCount());
 
         let symbolNodeList: Nodes.NSymbol[] = [];
         for (let i = symbolNodeIndex; i >= 0; i--) {
@@ -180,9 +180,7 @@ export class MathObjectEditor {
     private fillFractionWithNeighbors(frac: Nodes.NFraction): number {
         let parentExpr = Assert.require(frac.parentExpression);
 
-        let index = parentExpr.indexOf(frac);
-        Assert.int_gte(index, 0);
-
+        let index = Assert.isIndex(parentExpr.indexOf(frac));
         let nodes = parentExpr.getNodeList();
 
         let leftNodes: Nodes.NNode[] = [],
