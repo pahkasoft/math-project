@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 import pkg from './package.json' assert { type: 'json' }
 import { cpSync } from 'fs'
 
-const bannerText = `/* MathLib v${pkg.version} | (c) 2025 PahkaSoft | MIT License */`;
+const bannerText = `/* MathLib v${pkg.version} | (c) 2023-2025 PahkaSoft | MIT License */`;
 
 export default defineConfig([
     // ESM bundle
