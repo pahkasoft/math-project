@@ -22,13 +22,13 @@ You can try it [here](https://pahkasoft.github.io/math-app/index.html).
 ## Development
 
 ```bash
-# Install dependencies:
+# Install deps
 npm install --workspaces
 
-# Run in watch mode:
-npm run watch --workspace math-lib
-npm run start --workspace math-app
+# Build and run
+npm run build
+npm run start:math-app
 
 # Build all workspaces for production:
-npm run build:prod --workspaces
+npm run build:all
 ```
