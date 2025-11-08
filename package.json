@@ -50,16 +50,13 @@
         "./styles/theme.css": "./dist/styles/theme.css"
     },
     "unpkg": "./dist/iife/index.global.js",
-    "dependencies": {
-        "@tspro/brace-format": "^4.0.1",
-        "@tspro/ts-utils-lib": "^2.0.0",
-        "random-js": "^2.1.0"
-    },
     "devDependencies": {
         "@babel/cli": "^7.28.3",
         "@babel/core": "^7.28.5",
         "@babel/preset-env": "^7.28.5",
         "@babel/preset-react": "^7.28.5",
+        "@tspro/brace-format": "^4.0.1",
+        "@tspro/ts-utils-lib": "^2.2.0",
         "@types/jasmine": "^5.1.12",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.2",
@@ -74,6 +71,7 @@
         "karma-jasmine": "^5.1.0",
         "karma-sourcemap-loader": "^0.4.0",
         "karma-webpack": "^5.0.1",
+        "random-js": "^2.1.0",
         "ts-loader": "^9.5.4",
         "tsup": "^8.5.0",
         "typedoc": "^0.28.14",
@@ -98,8 +96,8 @@
     "scripts": {
         "build": "tsup",
         "build:all": "npm run build --workspaces --if-present",
-        "build:math-app": "npm run build --workspace apps/math-app",
-        "start:math-app": "npm run start --workspace apps/math-app",
+        "build:math-app": "npm run build --workspace ./apps/math-app",
+        "start:math-app": "npm run start --workspace ./apps/math-app",
         "test": "karma start",
         "docs": "typedoc"
     },
